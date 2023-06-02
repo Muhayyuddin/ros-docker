@@ -1,5 +1,5 @@
 ARG BASE_IMAGE=ros
-ARG BASE_TAG=$1
+ARG BASE_TAG=1$
 FROM ${BASE_IMAGE}:${BASE_TAG}
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -32,14 +32,8 @@ ENV HOME /home/${USER}
 # workspace setup
 RUN mkdir -p ${HOME}/ros_ws/src
 
-WORKDIR ${HOME}/ros_ws/src
-RUN /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash; catkin_init_workspace"
-
-WORKDIR ${HOME}/ros_ws/
-COPY --chown=${USER} ./src/ ./src/
-
-RUN /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash; catkin_make"
-
+WORKDIR ${HOME}/ros_ws
+RUN /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash; colcon build --symlink-install"
 # set up environment
 COPY config/update_bashrc.sh /sbin/update_bashrc
 RUN sudo chmod +x /sbin/update_bashrc ; sudo chown ros /sbin/update_bashrc ; sync ; /bin/bash -c /sbin/update_bashrc ; sudo rm /sbin/update_bashrc

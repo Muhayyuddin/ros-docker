@@ -1,6 +1,6 @@
 #!/bin/bash
 NAME=ros_ws # replace by the name of your image
-TAG=noetic # the tag of your built image
+TAG=galactic # the tag of your built image
 mkdir -p src
 # create a shared volume to store the ros_ws
 docker volume create --driver local \
