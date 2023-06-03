@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
  build-essential \
  vim \
  sudo \
+ ros-noetic-ros-canopen\ 
+ can-utils \
  && rm -rf /var/lib/apt/lists/*
 # Now create the same user as the host itself
 ARG UID=1000

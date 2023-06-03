@@ -14,5 +14,5 @@ docker run \
     --net=host \
     -it \
     --rm \
-    --volume="${NAME}_${TAG}:/home/ros/ros_ws/src/:rw" \
+    --volume="${NAME}_${TAG}:${PWD}/src/:rw" \
     "${NAME}:${TAG}"
