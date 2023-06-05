@@ -1,0 +1,54 @@
+#!/bin/bash
+
+HELP_MSG="\nScript usage:\tcanUp [VALUE]\n
+Where [VALUE] has possible options
+\t10 - 10 Kbps
+\t20 - 20 Kbps
+\t50 - 50 Kbps
+\t100 - 100 Kbps
+\t125 - 125 Kbps
+\t250 - 250 Kbps
+\t500 - 500 Kbps
+\t800 - 800 Kbps
+\t1000 - 1 Mbps"
+
+for arg in "$@"
+do
+    case $arg in
+        -h|--help)
+            echo "$HELP_MSG"
+            exit 0
+            ;;
+        -*)
+            echo "WRONG OPTION: try ./test [-h|--help]"
+            shift
+            exit 1
+            ;;
+        *)
+            OTHER_ARGUMENTS+=("$1")
+            shift
+            ;;
+    esac
+done
+
+ARG_NUM=${#OTHER_ARGUMENTS[@]}
+if [ $ARG_NUM -gt "1" ]
+then
+    echo "Too many arguments\ntry slcanUp [-h|--help]"
+    return 1
+fi
+
+if [ -z $OTHER_ARGUMENTS ]
+then
+    baud=250
+else
+    baud=$OTHER_ARGUMENTS
+fi
+
+echo "baud rate to ${baud}000"
+
+sudo ip link set can0 type can bitrate ${baud}000
+sudo ip link set up can0
+
+echo
+ifconfig -v | grep -A 5 can0

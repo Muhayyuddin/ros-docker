@@ -1,0 +1,13 @@
+<launch>
+
+    <arg name="can_port" default="vcan0"/>
+    <rosparam param="can_port" subst_value="True">
+        $(arg can_port)
+    </rosparam>
+
+    <group ns="test_setup">
+        <node pkg="rot_pod" name="mini_cat" type="rot_pod_node" output="screen">
+        </node>
+    </group>
+
+</launch>
